@@ -14,11 +14,15 @@ async function deleteUsername(username) {
 }
 
 async function searchUser(searchWord){
-    await pool.query("SELECT * FROM usernames WHERE username='searchWord'")
+    const wildcard = `%${searchWord}%`
+    const {rows} = await pool.query("SELECT * FROM usernames WHERE username LIKE $1", [wildcard])
+    return rows
 }
+
 
 module.exports = {
     getAllUsernames,
     insertUsername,
-    deleteUsername
+    deleteUsername,
+    searchUser
 };

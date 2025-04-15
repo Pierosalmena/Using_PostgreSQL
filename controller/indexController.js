@@ -7,4 +7,10 @@ async function getUsernames(req, res) {
     console.log("Usernames: ", usernames);
     res.send("Usernames: " + usernames.map(user => user.username).join(", "));
 }
-module.exports = {getUsernames };
+
+async function search(req, res) {
+    const found = await db.searchUser(req.query.search);
+    const foundUsernames = found.map(user => user.username);
+    res.send("Usernames: " + foundUsernames.join(", "))
+}
+module.exports = {getUsernames, search };
